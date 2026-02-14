@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love, Farida ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffafbd 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .cursive {
+            font-family: 'Great Vibes', cursive;
+        }
+        .heart-bg {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            animation: float 6s linear infinite;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+        }
+        .hidden-section {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Pulse animation for the Yes button */
+        .pulse-btn {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center relative">
+
+    <!-- Floating Hearts Background -->
+    <div id="hearts-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+    <!-- MAIN CARD -->
+    <main class="relative z-10 w-full max-w-md p-6">
+        
+        <!-- INTRO SCREEN -->
+        <div id="screen-intro" class="glass-card rounded-3xl p-8 text-center shadow-2xl transition-all duration-500">
+            <div class="mb-6">
+                <span class="text-6xl">🌹</span>
+            </div>
+            <h1 class="text-5xl cursive text-red-600 mb-2">Hello Farida,</h1>
+            <p class="text-gray-600 mb-8 text-lg">I have a very important question to ask you...</p>
+            
+            <button onclick="nextScreen()" class="bg-red-500 text-white px-8 py-3 rounded-full font-bold text-xl shadow-lg hover:bg-red-600 transition-transform transform hover:scale-105">
+                Ask Me ❤️
+            </button>
+        </div>
+
+        <!-- THE QUESTION SCREEN (Hidden initially) -->
+        <div id="screen-question" class="hidden-section glass-card rounded-3xl p-8 text-center shadow-2xl relative">
+            <h1 class="text-4xl cursive text-red-600 mb-6 leading-tight">Will you be my Valentine?</h1>
+            
+            <div class="flex flex-col gap-4 items-center justify-center mt-8 h-40">
+                <!-- YES BUTTON -->
+                <button onclick="acceptLove()" class="pulse-btn w-full bg-green-500 text-white px-8 py-4 rounded-xl font-bold text-2xl shadow-lg hover:bg-green-600 transition-colors z-20">
+                    YES! 😍
+                </button>
+
+                <!-- NO BUTTON (Tricky) -->
+                <button id="no-btn" onmouseover="moveButton()" onclick="moveButton()" class="w-full bg-gray-300 text-gray-600 px-8 py-2 rounded-xl font-bold text-sm shadow-inner transition-all absolute bottom-8 z-10">
+                    No 😢
+                </button>
+            </div>
+        </div>
+
+        <!-- SUCCESS SCREEN (Hidden initially) -->
+        <div id="screen-success" class="hidden-section glass-card rounded-3xl p-8 text-center shadow-2xl">
+            <div class="mb-4 animate-bounce">
+                <span class="text-7xl">💖</span>
+            </div>
+            <h1 class="text-5xl cursive text-red-600 mb-4">I Knew It!</h1>
+            <p class="text-gray-700 text-lg mb-6">
+                Farida, you make my world brighter every single day. I can't wait to celebrate with you.
+            </p>
+            
+            <!-- Photo Placeholder -->
+            <div class="bg-white p-2 rounded-xl shadow-md rotate-2 mb-6 transform hover:rotate-0 transition-all duration-500">
+                <div class="bg-red-100 h-48 rounded-lg flex items-center justify-center overflow-hidden relative">
+                    <!-- You can replace this src with a real photo URL if you have one hosted -->
+                    <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Couple" class="opacity-80 w-full h-full object-cover">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-red-500 font-bold text-xl bg-white/80 px-4 py-2 rounded-full backdrop-blur-sm">Us Forever</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-2 italic">Happy Valentine's Day, My Love</p>
+            </div>
+
+            <!-- Music Player -->
+            <div class="bg-red-50 rounded-xl p-4 flex items-center gap-4">
+                <button onclick="toggleMusic()" id="music-btn" class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white shadow-md hover:bg-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                </button>
+                <div class="text-left">
+                    <p class="font-bold text-red-900 text-sm">Our Song</p>
+                    <p class="text-red-400 text-xs">Click play...</p>
+                </div>
+            </div>
+
+            <!-- Hidden Audio Element (Replace src with any MP3 link) -->
+            <audio id="bg-music" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+
+            <div class="mt-8 text-sm text-gray-400">
+                Made with ❤️ just for you
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- 1. Floating Hearts Logic ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = ['❤️', '💖', '💕', '🌹'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            document.getElementById('hearts-container').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 300);
+
+        // --- 2. Screen Switching ---
+        function nextScreen() {
+            document.getElementById('screen-intro').style.display = 'none';
+            document.getElementById('screen-question').style.display = 'block';
+        }
+
+        // --- 3. The "Running No" Button ---
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            const container = document.getElementById('screen-question');
+            
+            // Get container dimensions
+            const rect = container.getBoundingClientRect();
+            
+            // Calculate random position within the card
+            const newX = Math.random() * (rect.width - 100); 
+            const newY = Math.random() * (rect.height - 50); 
+            
+            btn.style.position = 'absolute';
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+            
+            // Change text slightly each time
+            const texts = ["No?", "Are you sure?", "Try again!", "Can't catch me!", "Really?"];
+            btn.innerText = texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        // --- 4. Success & Confetti ---
+        function acceptLove() {
+            document.getElementById('screen-question').style.display = 'none';
+            document.getElementById('screen-success').style.display = 'block';
+            
+            // Trigger Confetti
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInOut(min, max) {
+            return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            var particleCount = 50 * (timeLeft / duration);
+            // since particles fall down, start a bit higher than random
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInOut(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInOut(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // --- 5. Music Player ---
+        let isPlaying = false;
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-btn');
+            
+            if (isPlaying) {
+                audio.pause();
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>';
+            } else {
+                audio.play();
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" /></svg>';
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
